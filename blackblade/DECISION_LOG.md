@@ -121,8 +121,8 @@ Written to be turned into two portfolio case studies later:
 
 ### D-005 · Simulator: PX4 SITL in WSL2 on Rishik's Windows PC
 - Date: 2026-11-10
-- Status: Proposed
-- Decided by: Claude proposed
+- Status: Decided
+- Decided by: Claude proposed, Rishik accepted
 - Lens: Both
 
 **Context** — Need a simulated drone to exercise the GCS without hardware.
@@ -131,9 +131,29 @@ Written to be turned into two portfolio case studies later:
 |---|---|---|
 | PX4 SITL + Gazebo in WSL2 | QGC's primary autopilot; 3D sim; official Windows path | WSL2 install + restart; WSL IP changes on restart unless mirrored networking is on |
 | ArduPilot SITL | Strong Windows tooling | Different flight-mode model from PX4 |
-**Decision** — PX4 SITL with Gazebo (`gz_x500` quadcopter), pending the firmware question below.
+**Decision** — PX4 SITL with Gazebo (`gz_x500` quadcopter), following D-006.
 **Risks** — Windows QGC may not auto-connect to WSL2. Rishik is on Windows 11, so WSL mirrored networking
 (`networkingMode=mirrored` in `.wslconfig`) is the mitigation; a manual UDP link on port 18570 is the fallback.
+
+### D-006 · Design for PX4 first; keep ArduPilot compatible but out of design scope for v1
+- Date: 2026-11-10
+- Status: Decided
+- Decided by: Claude proposed, Rishik accepted
+- Lens: Strategic
+
+**Context** — QGC supports both autopilots, but flight-mode names and behaviour, parameters and Setup screens differ.
+Designing for both roughly doubles the edge cases in Fly View and Setup.
+**Options considered**
+| Option | Pros | Cons |
+|---|---|---|
+| PX4 primary | QGC's reference platform; best simulator support in QGC; professional-operator positioning | Excludes ArduPilot-specific modes from v1 design |
+| ArduPilot primary | Large community; users mostly on Mission Planner, so stronger differentiation story | Weaker fit with QGC's reference workflows |
+| Both equally | Widest reach | Not realistic for a solo designer |
+**Decision** — PX4 is the design and test target for v1. ArduPilot must not break, but gets no dedicated design work.
+**Rationale** — Fits D-001 (QGC base) and D-005 (PX4 simulator); a focused v1 scope for one designer.
+**Trade-offs accepted** — ArduPilot operators get no tailored experience in v1.
+**Risks** — Target users may turn out to fly ArduPilot; mitigation is to revisit after the first Fly View redesign.
+**Case-study angle** — Narrowing scope deliberately so one designer can ship a coherent v1.
 
 ---
 
@@ -150,11 +170,6 @@ Written to be turned into two portfolio case studies later:
 
 ## Open questions
 
-- **Target autopilot: PX4, ArduPilot, or both?** (Strategic; affects D-005, flight-mode design, Setup screens.)
-  Criteria: (1) which autopilot the target operators/companies fly — or Rishik's NewSpace/Skytex experience;
-  (2) positioning — PX4 is QGC's reference platform (professional-operator story), ArduPilot users mostly use
-  Mission Planner (differentiation story); (3) solo scope — "both" only as primary + compatible.
-  Claude's recommendation: PX4 primary for v1, ArduPilot kept compatible; revisit after the first Fly View redesign.
 - Primary operator profile and mission type for Black Blade.
 - First screen to redesign — Fly View recommended (where operators spend most of their time).
 - Distribution and licensing: QGC is dual-licensed Apache 2.0 / GPLv3; confirm which applies if Black Blade is ever shared or sold.
@@ -175,6 +190,6 @@ Written to be turned into two portfolio case studies later:
 | Final design, before/after | Stock QGC vs Black Blade screenshots, linked from entries |
 | Outcome / reflection | Final review entry (to be added) |
 
-**Strategic Design Manager lens**: D-001 (build vs. adopt), the autopilot positioning decision, D-004 (design
+**Strategic Design Manager lens**: D-001 (build vs. adopt), D-006 (autopilot positioning), D-004 (design
 tooling and design-system strategy), D-003 (feedback-loop trade-off), W-001 (infrastructure risk), plus design
 principles, vision and impact measures as they are set.
