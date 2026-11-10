@@ -166,6 +166,15 @@ Designing for both roughly doubles the edge cases in Fly View and Setup.
 - **Fix** — Opening internal PR #1 fired a `pull_request` event, which registered all workflows; the build was then started manually.
 - **Lesson** — Fork CI is not plug-and-play; budget setup time for build infrastructure before design work starts.
 
+### W-002 · First Windows build compiled but could not package an installer
+- Date: 2026-11-10
+- **What happened** — The baseline build compiled, then failed at "Create Installer": the app version resolved to
+  0.0.0 because the fork was created without upstream's tags, and QGC refuses to package a 0.0.0 build.
+- **Tried** — Pushing upstream's `v5.2.0-dev` tag to the fork; blocked from Claude's workspace.
+- **Fix** — Added a fork-only step to the Windows workflow on `blackblade/ui` that fetches upstream tags before
+  building (commit `968a16374`).
+- **Lesson** — "Copy master branch only" when forking drops tags the build depends on; a one-line CI change fixed it.
+
 ---
 
 ## Open questions
