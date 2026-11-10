@@ -177,6 +177,8 @@ Designing for both roughly doubles the edge cases in Fly View and Setup.
 - **Tried** — Pushing upstream's `v5.2.0-dev` tag to the fork; blocked from Claude's workspace.
 - **Fix** — Added a fork-only step to the Windows workflow on `blackblade/ui` that fetches upstream tags before
   building (commit `968a16374`).
+- **Result** — Next build succeeded; installers produced for AMD64 and ARM64:
+  https://github.com/RJCONTACT/qgroundcontrol/actions/runs/42871516164
 - **Lesson** — "Copy master branch only" when forking drops tags the build depends on; a one-line CI change fixed it.
 
 ---
