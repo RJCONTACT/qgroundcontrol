@@ -134,6 +134,10 @@ Written to be turned into two portfolio case studies later:
 **Decision** — PX4 SITL with Gazebo (`gz_x500` quadcopter), following D-006.
 **Risks** — Windows QGC may not auto-connect to WSL2. Rishik is on Windows 11, so WSL mirrored networking
 (`networkingMode=mirrored` in `.wslconfig`) is the mitigation; a manual UDP link on port 18570 is the fallback.
+**Evidence** — Set up on 2026-11-10 by Claude Code on Rishik's PC from one prompt (~22 min, unattended after launch):
+WSL 2.6.3.0, Ubuntu 22.04.5, PX4 main `8d5be2b9cb` (v1.18.0-beta1), Gazebo Harmonic 8.15.0. Smoke test passed:
+MAVLink streaming to UDP 14550. Hyper-V firewall inbound set to Allow (was NotConfigured).
+Launcher: `Start PX4 Sim.cmd` on the Desktop; details in `px4-setup-status.txt`.
 
 ### D-006 · Design for PX4 first; keep ArduPilot compatible but out of design scope for v1
 - Date: 2026-11-10
