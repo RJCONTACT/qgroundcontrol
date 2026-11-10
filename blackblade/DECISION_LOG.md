@@ -4,7 +4,8 @@ Running record of every major decision on Black Blade GCS (a redesign of QGround
 Written to be turned into two portfolio case studies later:
 
 - **Product UX case study** — the design problem, options, decisions, before/after, outcome.
-- **SDM case study** — scope, planning, tooling, risk, delivery and trade-offs.
+- **Strategic Design Manager (SDM) case study** — product vision and positioning, design principles,
+  design-system strategy, build-vs-adopt bets, scope trade-offs, and how design impact is measured.
 
 ## Rules for this log
 
@@ -22,7 +23,7 @@ Written to be turned into two portfolio case studies later:
 - Date:
 - Status: Proposed | Decided | Reversed | Superseded by D-YYY
 - Decided by:
-- Lens: UX | SDM | Both
+- Lens: UX | Strategic | Both
 
 **Context** — what situation forced a decision (2–3 lines).
 **Problem / evidence** — what was wrong or unknown, and how we know.
@@ -74,7 +75,7 @@ Written to be turned into two portfolio case studies later:
 - Date: 2026-11-10
 - Status: Decided
 - Decided by: Claude proposed, Rishik accepted
-- Lens: SDM
+- Lens: Strategic
 
 **Context** — Need a way to change the UI while still pulling upstream QGC fixes.
 **Decision** — `master` mirrors upstream untouched; all Black Blade work goes on `blackblade/ui`, tracked by internal PR #1 (fork-only, not sent upstream).
@@ -131,7 +132,8 @@ Written to be turned into two portfolio case studies later:
 | PX4 SITL + Gazebo in WSL2 | QGC's primary autopilot; 3D sim; official Windows path | WSL2 install + restart; WSL IP changes on restart unless mirrored networking is on |
 | ArduPilot SITL | Strong Windows tooling | Different flight-mode model from PX4 |
 **Decision** — PX4 SITL with Gazebo (`gz_x500` quadcopter), pending the firmware question below.
-**Risks** — Windows QGC may not auto-connect to WSL2; mitigation is WSL mirrored networking or a manual UDP link.
+**Risks** — Windows QGC may not auto-connect to WSL2. Rishik is on Windows 11, so WSL mirrored networking
+(`networkingMode=mirrored` in `.wslconfig`) is the mitigation; a manual UDP link on port 18570 is the fallback.
 
 ---
 
@@ -148,7 +150,11 @@ Written to be turned into two portfolio case studies later:
 
 ## Open questions
 
-- Target autopilot: PX4, ArduPilot, or both? (Affects D-005 and which flight modes the UI must design for.)
+- **Target autopilot: PX4, ArduPilot, or both?** (Strategic; affects D-005, flight-mode design, Setup screens.)
+  Criteria: (1) which autopilot the target operators/companies fly — or Rishik's NewSpace/Skytex experience;
+  (2) positioning — PX4 is QGC's reference platform (professional-operator story), ArduPilot users mostly use
+  Mission Planner (differentiation story); (3) solo scope — "both" only as primary + compatible.
+  Claude's recommendation: PX4 primary for v1, ArduPilot kept compatible; revisit after the first Fly View redesign.
 - Primary operator profile and mission type for Black Blade.
 - First screen to redesign — Fly View recommended (where operators spend most of their time).
 - Distribution and licensing: QGC is dual-licensed Apache 2.0 / GPLv3; confirm which applies if Black Blade is ever shared or sold.
@@ -169,4 +175,6 @@ Written to be turned into two portfolio case studies later:
 | Final design, before/after | Stock QGC vs Black Blade screenshots, linked from entries |
 | Outcome / reflection | Final review entry (to be added) |
 
-**SDM lens**: D-001 (build vs. adopt), D-002 (branching and upstream strategy), D-003 (feedback-loop trade-off), W-001 (CI risk), plus timeline and scope changes as they happen.
+**Strategic Design Manager lens**: D-001 (build vs. adopt), the autopilot positioning decision, D-004 (design
+tooling and design-system strategy), D-003 (feedback-loop trade-off), W-001 (infrastructure risk), plus design
+principles, vision and impact measures as they are set.
