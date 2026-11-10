@@ -125,6 +125,13 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      # Forks copy no tags, so git describe returns 0.0.0 and packaging fails; borrow upstream's tags.
+      # (Figma analogy: like importing a published library's Variables so local instances resolve.)
+      - name: Fetch upstream tags (forks only)
+        if: github.repository_owner != 'mavlink'
+        shell: bash
+        run: git fetch --no-tags --force https://github.com/mavlink/qgroundcontrol '+refs/tags/*:refs/tags/*'
+
       - name: Install Visual Studio Build Tools
         if: runner.environment != 'github-hosted'
         uses: ./.github/actions/install-dependencies
